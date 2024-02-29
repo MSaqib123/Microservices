@@ -70,10 +70,6 @@ namespace Mango.Web.Service
                     }
                 }
 
-
-
-               
-
                 HttpResponseMessage? apiResponse = null;
 
                 switch (requestDto.ApiType)
