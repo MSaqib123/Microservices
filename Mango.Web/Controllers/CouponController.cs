@@ -14,7 +14,6 @@ namespace Mango.Web.Controllers
             _couponService = couponService;
         }
 
-
         public async Task<IActionResult> CouponIndex()
         {
             List<CouponDto>? list = new();
@@ -90,6 +89,5 @@ namespace Mango.Web.Controllers
             }
             return View(couponDto);
         }
-
     }
 }
