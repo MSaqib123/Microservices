@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,9 +26,10 @@ builder.Services.AddSingleton(mapper);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-
-//============= Swagger ==============
 //builder.Services.AddSwaggerGen();
+
+//============= Swagger Custom  ==============
+#region Customize Swagger
 builder.Services.AddSwaggerGen(option =>
 {
     option.AddSecurityDefinition(name: JwtBearerDefaults.AuthenticationScheme, securityScheme: new OpenApiSecurityScheme
@@ -52,6 +54,41 @@ builder.Services.AddSwaggerGen(option =>
         }
     });
 });
+#endregion
+
+//============= Authentication _ Authoriziation ==============
+#region Authentication _ Authoriziation Pipline
+
+//var secret = builder.Configuration.GetValue<string>("ApiSettings:Secret")??"";
+//var issuer = builder.Configuration.GetValue<string>("ApiSettings:Issuer");
+//var audience = builder.Configuration.GetValue<string>("ApiSettings:Audience");
+
+var settingsSection = builder.Configuration.GetSection("ApiSettings");
+
+var secret = settingsSection.GetValue<string>("Secret");
+var issuer = settingsSection.GetValue<string>("Issuer");
+var audience = settingsSection.GetValue<string>("Audience");
+var key = Encoding.ASCII.GetBytes(secret??"");
+
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x =>
+{
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = true,
+        ValidIssuer = issuer,
+        ValidateAudience = true,
+        ValidAudience = audience,
+    };
+});
+builder.Services.AddAuthorization();
+#endregion
+
 
 var app = builder.Build();
 
@@ -69,6 +106,7 @@ app.UseSwaggerUI(c =>
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
