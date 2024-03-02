@@ -30,63 +30,63 @@ builder.Services.AddEndpointsApiExplorer();
 
 //============= Swagger Custom  ==============
 #region Customize Swagger
-builder.Services.AddSwaggerGen(option =>
-{
-    option.AddSecurityDefinition(name: JwtBearerDefaults.AuthenticationScheme, securityScheme: new OpenApiSecurityScheme
-    {
-        Name = "Authorization",
-        Description = "Enter the Bearer Authorization string as following: `Bearer Generated-JWT-Token`",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
-    });
-    option.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference= new OpenApiReference
-                {
-                    Type=ReferenceType.SecurityScheme,
-                    Id=JwtBearerDefaults.AuthenticationScheme
-                }
-            }, new string[]{}
-        }
-    });
-});
+builder.AddSwaggerSettings();
+//builder.Services.AddSwaggerGen(option =>
+//{
+//    option.AddSecurityDefinition(name: JwtBearerDefaults.AuthenticationScheme, securityScheme: new OpenApiSecurityScheme
+//    {
+//        Name = "Authorization",
+//        Description = "Enter the Bearer Authorization string as following: `Bearer Generated-JWT-Token`",
+//        In = ParameterLocation.Header,
+//        Type = SecuritySchemeType.ApiKey,
+//        Scheme = "Bearer"
+//    });
+//    option.AddSecurityRequirement(new OpenApiSecurityRequirement
+//    {
+//        {
+//            new OpenApiSecurityScheme
+//            {
+//                Reference= new OpenApiReference
+//                {
+//                    Type=ReferenceType.SecurityScheme,
+//                    Id=JwtBearerDefaults.AuthenticationScheme
+//                }
+//            }, new string[]{}
+//        }
+//    });
+//});
 #endregion
 
 //============= Authentication _ Authoriziation ==============
 #region Authentication _ Authoriziation Pipline
-
+builder.AddAppAuthetication();
 //var secret = builder.Configuration.GetValue<string>("ApiSettings:Secret")??"";
 //var issuer = builder.Configuration.GetValue<string>("ApiSettings:Issuer");
 //var audience = builder.Configuration.GetValue<string>("ApiSettings:Audience");
 
-var settingsSection = builder.Configuration.GetSection("ApiSettings");
+//var settingsSection = builder.Configuration.GetSection("ApiSettings");
+//var secret = settingsSection.GetValue<string>("Secret");
+//var issuer = settingsSection.GetValue<string>("Issuer");
+//var audience = settingsSection.GetValue<string>("Audience");
+//var key = Encoding.ASCII.GetBytes(secret??"");
 
-var secret = settingsSection.GetValue<string>("Secret");
-var issuer = settingsSection.GetValue<string>("Issuer");
-var audience = settingsSection.GetValue<string>("Audience");
-var key = Encoding.ASCII.GetBytes(secret??"");
-
-builder.Services.AddAuthentication(x =>
-{
-    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(x =>
-{
-    x.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = true,
-        ValidIssuer = issuer,
-        ValidateAudience = true,
-        ValidAudience = audience,
-    };
-});
-builder.Services.AddAuthorization();
+//builder.Services.AddAuthentication(x =>
+//{
+//    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//}).AddJwtBearer(x =>
+//{
+//    x.TokenValidationParameters = new TokenValidationParameters
+//    {
+//        ValidateIssuerSigningKey = true,
+//        IssuerSigningKey = new SymmetricSecurityKey(key),
+//        ValidateIssuer = true,
+//        ValidIssuer = issuer,
+//        ValidateAudience = true,
+//        ValidAudience = audience,
+//    };
+//});
+//builder.Services.AddAuthorization();
 #endregion
 
 
