@@ -14,9 +14,8 @@ builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange
 builder.Services.AddOcelot(builder.Configuration);
 
 
-
 //================= Pipline ======================
-//app.MapGet("/", () => "Hello World!");
+app.MapGet("/", () => "Gateway Layer , Bridge Layer");
 var app = builder.Build();
 app.UseOcelot().GetAwaiter().GetResult();
 
