@@ -16,8 +16,7 @@ builder.Services.AddOcelot(builder.Configuration);
 
 //================= Pipline ======================
 var app = builder.Build();
-app.MapGet("/", () => "Gateway Layer , Bridge Layer");
-
 app.UseOcelot().GetAwaiter().GetResult();
 
+app.MapGet("/", () => "Gateway Layer , Bridge Layer");
 app.Run();

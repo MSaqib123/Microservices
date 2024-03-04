@@ -21,8 +21,8 @@ builder.AddAppAuthentication();
 
 
 var app = builder.Build();
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
@@ -32,7 +32,7 @@ if (app.Environment.IsDevelopment())
             c.RoutePrefix = string.Empty;
         }
     });
-}
+//}
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
