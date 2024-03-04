@@ -59,7 +59,7 @@ builder.AddSwaggerSettings();
 
 //============= Authentication _ Authoriziation ==============
 #region Authentication _ Authoriziation Pipline
-builder.AddAppAuthetication();
+builder.AddAppAuthentication();
 //var secret = builder.Configuration.GetValue<string>("ApiSettings:Secret")??"";
 //var issuer = builder.Configuration.GetValue<string>("ApiSettings:Issuer");
 //var audience = builder.Configuration.GetValue<string>("ApiSettings:Audience");
@@ -93,15 +93,19 @@ builder.AddAppAuthetication();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.UseSwagger();
-app.UseSwaggerUI(c =>
+if (app.Environment.IsDevelopment())
 {
-    if (!app.Environment.IsDevelopment())
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cart API");
-        c.RoutePrefix = string.Empty;
-    }
-});
+        if (!app.Environment.IsDevelopment())
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cart API");
+            c.RoutePrefix = string.Empty;
+        }
+    });
+}
+
 //Stripe.StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 
 app.UseHttpsRedirection();
