@@ -45,7 +45,7 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
                     CartHeader = _mapper.Map<CartHeaderDto>(_db.CartHeaders.First(u => u.UserId == userId))
                 };
                 cart.CartDetails = _mapper.Map<IEnumerable<CartDetailsDto>>(_db.CartDetails
-                    .Where(u=>u.CartHeaderId==cart.CartHeader.CartHeaderId));
+                    .Where(u => u.CartHeaderId == cart.CartHeader.CartHeaderId));
 
                 IEnumerable<ProductDto> productDtos = await _productService.GetProducts();
 
@@ -59,14 +59,14 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
                 if (!string.IsNullOrEmpty(cart.CartHeader.CouponCode))
                 {
                     CouponDto coupon = await _couponService.GetCoupon(cart.CartHeader.CouponCode);
-                    if(coupon!=null && cart.CartHeader.CartTotal > coupon.MinAmount)
+                    if (coupon != null && cart.CartHeader.CartTotal > coupon.MinAmount)
                     {
                         cart.CartHeader.CartTotal -= coupon.DiscountAmount;
-                        cart.CartHeader.Discount=coupon.DiscountAmount;
+                        cart.CartHeader.Discount = coupon.DiscountAmount;
                     }
                 }
 
-                _response.Result=cart;
+                _response.Result = cart;
             }
             catch (Exception ex)
             {
@@ -160,8 +160,8 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
             }
             catch (Exception ex)
             {
-                _response.Message= ex.Message.ToString();
-                _response.IsSuccess= false;
+                _response.Message = ex.Message.ToString();
+                _response.IsSuccess = false;
             }
             return _response;
         }
@@ -169,7 +169,7 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
 
 
         [HttpPost("RemoveCart")]
-        public async Task<ResponseDto> RemoveCart([FromBody]int cartDetailsId)
+        public async Task<ResponseDto> RemoveCart([FromBody] int cartDetailsId)
         {
             try
             {
@@ -186,7 +186,7 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
                     _db.CartHeaders.Remove(cartHeaderToRemove);
                 }
                 await _db.SaveChangesAsync();
-               
+
                 _response.Result = true;
             }
             catch (Exception ex)

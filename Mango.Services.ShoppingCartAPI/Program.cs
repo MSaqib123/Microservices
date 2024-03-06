@@ -34,9 +34,6 @@ new Uri(builder.Configuration["ServiceUrls:CouponAPI"])).AddHttpMessageHandler<B
 
 builder.AddSwaggerSettings();
 builder.AddAppAuthentication();
-builder.Services.AddAuthorization();
-
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -61,7 +58,6 @@ app.UseAuthorization();
 app.MapControllers();
 ApplyMigration();
 app.Run();
-
 
 void ApplyMigration()
 {
