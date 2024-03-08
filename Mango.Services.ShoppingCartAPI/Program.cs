@@ -32,6 +32,8 @@ new Uri(builder.Configuration["ServiceUrls:ProductAPI"])).AddHttpMessageHandler<
 builder.Services.AddHttpClient("Coupon", u => u.BaseAddress =
 new Uri(builder.Configuration["ServiceUrls:CouponAPI"])).AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>();
 
+
+
 builder.AddSwaggerSettings();
 builder.AddAppAuthentication();
 
