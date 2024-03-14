@@ -128,7 +128,10 @@ namespace Mango.Web.Controllers
 
             var principal = new ClaimsPrincipal(identity);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+
         }
+
 
     }
 }
