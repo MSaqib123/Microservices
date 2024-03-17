@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 namespace Mango.Services.ShoppingCartAPI.Utility 
 {
     //========== Delegating Handler ==========
-
+    //Similar middlware of core  , but different is   they are on Client side    not serverside
     public class BackendApiAuthenticationHttpClientHandler : DelegatingHandler
     {
         private readonly IHttpContextAccessor _accessor;
