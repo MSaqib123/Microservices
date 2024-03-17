@@ -3,6 +3,8 @@ using System.Net.Http.Headers;
 
 namespace Mango.Services.ShoppingCartAPI.Utility 
 {
+    //========== Delegating Handler ==========
+
     public class BackendApiAuthenticationHttpClientHandler : DelegatingHandler
     {
         private readonly IHttpContextAccessor _accessor;
