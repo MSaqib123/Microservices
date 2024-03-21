@@ -41,9 +41,13 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
         {
             try
             {
-                Console.Write("P");
-                Console.Write("P");
-                Console.Write("P");
+                Console.Write("P1");
+                Console.Write("P2");
+                Console.Write("P3");
+                Console.Write("P4");
+                Console.Write("P5");
+                Console.Write("P6");
+                Console.Write("P7");
                 var cartHeaderFromDb = await _db.CartHeaders.AsNoTracking()
                     .FirstOrDefaultAsync(u => u.UserId == cartDto.CartHeader.UserId);
                 if (cartHeaderFromDb == null)
